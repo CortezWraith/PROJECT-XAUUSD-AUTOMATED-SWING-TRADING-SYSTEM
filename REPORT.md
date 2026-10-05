@@ -620,7 +620,7 @@ TradingEngine (live/engine.py) = jediná orchestrační cesta; drivery: backtest
 | BrokerAdapter | `brokers/base.py`; `brokers/simulated.py` (backtest + paper); `brokers/mt5.py` (demo + live) |
 | TradeLedger | `portfolio/ledger.py` (append-only JSONL, rekonstrukce odeslaných ID po restartu) |
 | Monitoring / logging | `monitoring/monitor.py` (alerty, heartbeat, drift vs. výzkumné pásma), JSON logy (`cli.py`) |
-| Konfigurace / CLI | `config.py` (TOML, credentials jen z env), `cli.py` (`backtest`, `run --mode paper|demo|live`) |
+| Konfigurace / CLI | `config.py` (TOML, credentials jen z env), `cli.py` (`backtest`, `run --mode paper / demo / live`) |
 
 **Strategie nikdy neposílá příkaz brokerovi** – vrací jen `Signal`. Neví nic o equity ani o brokerovi.
 
