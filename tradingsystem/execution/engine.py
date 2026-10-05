@@ -38,6 +38,7 @@ class ExecutionEngine:
         self.max_retries = max_retries
         self.max_quote_age_s = max_quote_age_s
         self.sent: set[str] = ledger.submitted_ids()
+        self.closing: set[str] = set()   # positions with an exit already submitted (exit-and-reverse)
 
     # ------------------------------------------------------------------ public
     def handle(self, sig: Signal, timeframe: str, now: Optional[pd.Timestamp] = None) -> None:
@@ -69,7 +70,7 @@ class ExecutionEngine:
         if self.max_quote_age_s is not None and now is not None:
             if (now - q.time).total_seconds() > self.max_quote_age_s:
                 return "stale quote"
-        if q.bid <= 0 or q.ask <= q.bid:
+        if q.bid <= 0 or q.ask < q.bid:
             return "invalid quote"
         return None
 
@@ -78,7 +79,8 @@ class ExecutionEngine:
         if cid in self.sent:
             self.ledger.record_decision(sig.timestamp, sig.strategy_id, "ENTER", False, "duplicate signal id")
             return
-        if self.portfolio.position_of(sig.strategy_id) is not None:
+        cur = self.portfolio.position_of(sig.strategy_id)
+        if cur is not None and cur.position_id not in self.closing:
             self.ledger.record_decision(sig.timestamp, sig.strategy_id, "ENTER", False, "already in position")
             return
         # replace resting entries on the same side (two-sided OCO brackets keep the other side)
@@ -117,6 +119,7 @@ class ExecutionEngine:
         if cid in self.sent:
             return
         self.sent.add(cid)
+        self.closing.add(p.position_id)
         self.ledger.record_decision(sig.timestamp, sig.strategy_id, "EXIT", True, sig.reason)
         self._with_retries(lambda: self.broker.close_position(p.position_id, cid))
 

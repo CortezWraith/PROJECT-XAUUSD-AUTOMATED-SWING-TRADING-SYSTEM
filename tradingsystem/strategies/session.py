@@ -67,21 +67,44 @@ class SessionDrift(Strategy):
         if np.isnan(row.datr):
             return []
         nh, wd = row.next_hour, row.next_wd
+        out = []
         if pos is not None:
-            if pos.side is Side.LONG and nh == p.long_exit_hour:
-                return [self._sig(ts, SignalAction.EXIT, side=Side.LONG, reason="session end")]
-            if pos.side is Side.SHORT and nh == p.short_exit_hour:
-                return [self._sig(ts, SignalAction.EXIT, side=Side.SHORT, reason="session end")]
-            # safety: never carry a session position for more than 20 bars
-            if pos.bars_held >= 20:
-                return [self._sig(ts, SignalAction.EXIT, side=pos.side, reason="max hold")]
-            return []
+            ends = (pos.side is Side.LONG and nh == p.long_exit_hour) or \
+                   (pos.side is Side.SHORT and nh == p.short_exit_hour) or pos.bars_held >= 20
+            if not ends:
+                return []
+            out.append(self._sig(ts, SignalAction.EXIT, side=pos.side, reason="session end"))
         if wd not in p.weekdays:
-            return []
+            return out
         if p.allow_long and nh == p.long_entry_hour:
-            return [self._sig(ts, SignalAction.ENTER, side=Side.LONG, stop_price=row.close - p.stop_atr * row.datr,
-                              reason="asian session")]
-        if p.allow_short and nh == p.short_entry_hour:
-            return [self._sig(ts, SignalAction.ENTER, side=Side.SHORT, stop_price=row.close + p.stop_atr * row.datr,
-                              reason="us day session")]
-        return []
+            out.append(self._sig(ts, SignalAction.ENTER, side=Side.LONG, stop_price=row.close - p.stop_atr * row.datr,
+                                 reason="long session"))
+        elif p.allow_short and nh == p.short_entry_hour:
+            out.append(self._sig(ts, SignalAction.ENTER, side=Side.SHORT, stop_price=row.close + p.stop_atr * row.datr,
+                                 reason="short session"))
+        return out
+
+
+class AsiaLondonSession(SessionDrift):
+    """C8b - revision of C8 made on DEVELOPMENT data only (disclosed as data-driven).
+
+    The pre-registered C8 window (long 19:00->08:00 NY) failed on DEV even before costs,
+    because it mixed two opposite intraday regimes visible in the DEV hourly profile:
+    gold rose during Asian hours (server 01-09 = 18:00-02:00 NY) and fell during the
+    London session (server 09-15 = 02:00-08:00 NY) - the "London bias" described by
+    practitioners and consistent with Asian physical demand vs. Western selling.
+
+    * LONG leg : buy at server 02 (19:00 NY, after the re-open spread normalises),
+      sell at server 09 (02:00 NY, before London opens).
+    * SHORT leg: sell at server 09, cover at server 15 (08:00 NY, before the COMEX open).
+    Exit-and-reverse at server 09 is handled by the execution engine (close first, then open).
+    """
+
+    strategy_id = "session_asia_london_h1"
+
+    @dataclass(frozen=True)
+    class Params(SessionDrift.Params):
+        long_entry_hour: int = 2
+        long_exit_hour: int = 9
+        short_entry_hour: int = 9
+        short_exit_hour: int = 15
