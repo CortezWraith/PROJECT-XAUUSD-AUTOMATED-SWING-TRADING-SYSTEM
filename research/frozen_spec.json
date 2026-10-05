@@ -1,0 +1,123 @@
+{
+  "frozen_at": "before any 2024-2026 holdout run",
+  "ranking_for_future_robustness": [
+    "C3 ema_trend_h4",
+    "C2 donchian_h4",
+    "C5 squeeze_h4"
+  ],
+  "same_underlying_bet": true,
+  "confidence": "LOW",
+  "passed_all_preregistered_gates": [],
+  "strategies": {
+    "C3": {
+      "strategy_id": "ema_trend_h4",
+      "timeframe": "H4",
+      "params": {
+        "fast": 20,
+        "slow": 100,
+        "atr_n": 20,
+        "stop_atr": 3.0,
+        "allow_long": true,
+        "allow_short": true
+      }
+    },
+    "C2": {
+      "strategy_id": "donchian_h4",
+      "timeframe": "H4",
+      "params": {
+        "entry_n": 55,
+        "exit_n": 20,
+        "atr_n": 20,
+        "stop_atr": 2.0,
+        "max_hold": 90,
+        "allow_long": true,
+        "allow_short": true
+      }
+    },
+    "C5": {
+      "strategy_id": "squeeze_h4",
+      "timeframe": "H4",
+      "params": {
+        "bb_n": 20,
+        "bb_k": 2.0,
+        "rank_n": 120,
+        "squeeze_pct": 0.2,
+        "lookback": 5,
+        "atr_n": 20,
+        "stop_atr": 2.0,
+        "max_hold": 30,
+        "allow_long": true,
+        "allow_short": true
+      }
+    },
+    "C9": {
+      "strategy_id": "donchian_usd_h4",
+      "timeframe": "H4",
+      "params": {
+        "entry_n": 55,
+        "exit_n": 20,
+        "atr_n": 20,
+        "stop_atr": 2.0,
+        "max_hold": 90,
+        "allow_long": true,
+        "allow_short": true,
+        "usd_ma": 50
+      }
+    },
+    "C8b": {
+      "strategy_id": "session_asia_london_h1",
+      "timeframe": "H1",
+      "params": {
+        "long_entry_hour": 2,
+        "long_exit_hour": 9,
+        "short_entry_hour": 9,
+        "short_exit_hour": 15,
+        "daily_atr_days": 20,
+        "stop_atr": 1.0,
+        "allow_long": true,
+        "allow_short": true,
+        "weekdays": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "offset_minutes": 0
+      }
+    }
+  },
+  "portfolio": {
+    "members": [
+      "ema_trend_h4",
+      "donchian_h4",
+      "squeeze_h4"
+    ],
+    "risk_per_trade": 0.005,
+    "strategy_risk_weights": {
+      "ema_trend_h4": 0.3333333333333333,
+      "donchian_h4": 0.3333333333333333,
+      "squeeze_h4": 0.3333333333333333
+    },
+    "max_open_risk": 0.015,
+    "max_daily_loss": 0.02,
+    "max_weekly_loss": 0.04,
+    "strategy_dd_stop": 0.1,
+    "portfolio_dd_stop": 0.15
+  },
+  "direction_flags": {
+    "C3": "long side fails DEV gate (exp<0 in DEV and OOS); short side positive in DEV and OOS but OOS Sharpe 0.22 < 0.3",
+    "C2": "long ~0 in DEV, strong in OOS; short positive in DEV, negative in OOS (regime-dependent asymmetry)",
+    "C5": "long positive DEV, negative OOS; short positive DEV, ~0 OOS"
+  },
+  "holdout_runs_declared": [
+    "each of C3, C2, C5, C9, C8b: baseline, x1.5, x2.0 costs, long-only, short-only",
+    "C3 short-only (direction rule variant)",
+    "portfolio C3+C2+C5 weights 1/3, production limits ON"
+  ],
+  "holdout": [
+    "2024-01-01",
+    "2026-09-01"
+  ],
+  "holdout_source": "A (Dukascopy bid/ask)"
+}

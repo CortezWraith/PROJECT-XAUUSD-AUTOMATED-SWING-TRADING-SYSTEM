@@ -1,0 +1,283 @@
+{
+  "keys": [
+    "C3",
+    "C2",
+    "C5"
+  ],
+  "daily_corr": {
+    "C3": {
+      "C3": 1.0,
+      "C2": 0.451,
+      "C5": 0.341
+    },
+    "C2": {
+      "C3": 0.451,
+      "C2": 1.0,
+      "C5": 0.427
+    },
+    "C5": {
+      "C3": 0.341,
+      "C2": 0.427,
+      "C5": 1.0
+    }
+  },
+  "pairs": [
+    {
+      "pair": "C3 / C2",
+      "corr_daily": 0.450647611172941,
+      "time_in_market_a": 0.2710399961003193,
+      "time_in_market_b": 0.45189987569767726,
+      "overlap_share_of_time": 0.1816032562333959,
+      "overlap_expected_if_indep": 0.12248294054683323,
+      "same_direction_share_of_overlap": 1.0,
+      "opposite_direction_share_of_overlap": 0.0,
+      "drawdown_corr": 0.6994093157811576,
+      "joint_deep_dd_share": 0.1406380027739251,
+      "joint_deep_dd_if_indep": 0.04000000000000001
+    },
+    {
+      "pair": "C3 / C5",
+      "corr_daily": 0.3405872238419557,
+      "time_in_market_a": 0.2710399961003193,
+      "time_in_market_b": 0.3245387408905896,
+      "overlap_share_of_time": 0.11293231616661385,
+      "overlap_expected_if_indep": 0.08796297906538794,
+      "same_direction_share_of_overlap": 0.9866191863602028,
+      "opposite_direction_share_of_overlap": 0.01338081363979713,
+      "drawdown_corr": 0.683555116592853,
+      "joint_deep_dd_share": 0.1608876560332871,
+      "joint_deep_dd_if_indep": 0.03983356449375867
+    },
+    {
+      "pair": "C2 / C5",
+      "corr_daily": 0.4268431368163592,
+      "time_in_market_a": 0.45189987569767726,
+      "time_in_market_b": 0.3245387408905896,
+      "overlap_share_of_time": 0.1879646103975237,
+      "overlap_expected_if_indep": 0.1466590166675381,
+      "same_direction_share_of_overlap": 0.988524377593361,
+      "opposite_direction_share_of_overlap": 0.011475622406639005,
+      "drawdown_corr": 0.6696419058943212,
+      "joint_deep_dd_share": 0.14812760055478502,
+      "joint_deep_dd_if_indep": 0.03983356449375867
+    }
+  ],
+  "net_direction": {
+    "all_long_share": 0.04008140583489727,
+    "all_short_share": 0.04405420556191962,
+    "any_position_share": 0.6493577713324722,
+    "max_simultaneous_same_direction": 3
+  },
+  "regime_exp_r": [
+    {
+      "regime": "crisis",
+      "state": "crisis (VIX>25)",
+      "C2": -0.311,
+      "C3": -0.158,
+      "C5": -0.229
+    },
+    {
+      "regime": "crisis",
+      "state": "normal",
+      "C2": 0.147,
+      "C3": 0.095,
+      "C5": 0.077
+    },
+    {
+      "regime": "rates",
+      "state": "falling yields",
+      "C2": -0.006,
+      "C3": 0.069,
+      "C5": 0.105
+    },
+    {
+      "regime": "rates",
+      "state": "rising yields",
+      "C2": 0.171,
+      "C3": 0.054,
+      "C5": -0.028
+    },
+    {
+      "regime": "trend",
+      "state": "ranging",
+      "C2": -0.039,
+      "C3": 0.079,
+      "C5": 0.024
+    },
+    {
+      "regime": "trend",
+      "state": "trending",
+      "C2": 0.423,
+      "C3": -0.007,
+      "C5": 0.075
+    },
+    {
+      "regime": "usd",
+      "state": "strong USD",
+      "C2": 0.08,
+      "C3": 0.118,
+      "C5": 0.066
+    },
+    {
+      "regime": "usd",
+      "state": "weak USD",
+      "C2": 0.083,
+      "C3": -0.014,
+      "C5": 0.008
+    },
+    {
+      "regime": "vol",
+      "state": "high vol",
+      "C2": -0.088,
+      "C3": -0.114,
+      "C5": -0.148
+    },
+    {
+      "regime": "vol",
+      "state": "low vol",
+      "C2": 0.185,
+      "C3": 0.228,
+      "C5": 0.175
+    }
+  ],
+  "portfolio_full_weights": {
+    "label": "portfolio, 0.5% each, limits ON",
+    "start": "2010-01-04",
+    "end": "2023-12-29",
+    "years": 13.98,
+    "cagr": 0.016587654264953455,
+    "sharpe": 0.24382645693168867,
+    "sortino": 0.4037865930903497,
+    "max_dd": 0.1506205714122134,
+    "calmar": 0.11012874343410177,
+    "longest_underwater_days": 2164,
+    "exposure": 0.5306003070998562,
+    "final_equity": 125868.89470544155,
+    "trades": 918,
+    "trades_per_year": 65.64310302634799,
+    "win_rate": 0.3366013071895425,
+    "avg_win": 932.8371592917017,
+    "avg_loss": -430.83380544448977,
+    "avg_win_r": 1.6109882537495195,
+    "avg_loss_r": -0.728876266352701,
+    "expectancy": 28.17962386213673,
+    "expectancy_r": 0.05872518976013795,
+    "expectancy_r_t": 1.1244653467332422,
+    "profit_factor": 1.0985940728839105,
+    "avg_hold_hours": 111.70915032679738,
+    "median_hold_hours": 92.0,
+    "longest_losing_streak": 18,
+    "net_pnl": 25868.89470544152,
+    "gross_pnl": 58581.89467381993,
+    "cost_spread": 10990.738344642541,
+    "cost_slippage": 5583.668219746801,
+    "cost_commission": 0.0,
+    "swap": -16138.593403989064,
+    "long_trades": 480,
+    "short_trades": 438,
+    "long_pnl": 8623.88485187446,
+    "short_pnl": 17245.009853567055,
+    "long_expectancy_r": 0.03946871912962693,
+    "short_expectancy_r": 0.07982817127302672,
+    "net_return_pct_initial": 25.86889470544152
+  },
+  "portfolio_full_weights_meta": {
+    "halted": true,
+    "halt_reason": "portfolio drawdown stop at 2021-11-04 02:00:00",
+    "disabled": {
+      "squeeze_h4": "strategy drawdown 10.4%"
+    },
+    "open_positions_at_end": 0
+  },
+  "portfolio": {
+    "label": "portfolio, weights 1/3, limits ON",
+    "start": "2010-01-04",
+    "end": "2023-12-29",
+    "years": 13.98,
+    "cagr": 0.006541870577982278,
+    "sharpe": 0.2394663602645754,
+    "sortino": 0.39274318915687817,
+    "max_dd": 0.07515899997538011,
+    "calmar": 0.08704041538771409,
+    "longest_underwater_days": 2164,
+    "exposure": 0.6395110775305272,
+    "final_equity": 109547.5198312658,
+    "trades": 1107,
+    "trades_per_year": 79.15785953177257,
+    "win_rate": 0.3369467028003613,
+    "avg_win": 268.8580785515631,
+    "avg_loss": -123.800214724456,
+    "avg_win_r": 1.6009850219821953,
+    "avg_loss_r": -0.7352708967788838,
+    "expectancy": 8.504702522115926,
+    "expectancy_r": 0.05192283194549064,
+    "expectancy_r_t": 1.1089764795328219,
+    "profit_factor": 1.103607045761478,
+    "avg_hold_hours": 112.79494128274617,
+    "median_hold_hours": 92.0,
+    "longest_losing_streak": 20,
+    "net_pnl": 9414.70569198233,
+    "gross_pnl": 20735.80683062743,
+    "cost_spread": 3758.338273338376,
+    "cost_slippage": 1947.3922350606235,
+    "cost_commission": 0.0,
+    "swap": -5615.370630246102,
+    "long_trades": 576,
+    "short_trades": 531,
+    "long_pnl": 4259.9885190916175,
+    "short_pnl": 5154.7171728907115,
+    "long_expectancy_r": 0.04430184469769311,
+    "short_expectancy_r": 0.060189665570220166,
+    "net_return_pct_initial": 9.414705691982329
+  },
+  "portfolio_no_limits": {
+    "label": "portfolio, 0.5% each, limits OFF",
+    "start": "2010-01-04",
+    "end": "2023-12-29",
+    "years": 13.98,
+    "cagr": 0.020132804889421596,
+    "sharpe": 0.26389179830487147,
+    "sortino": 0.4334625419419243,
+    "max_dd": 0.23141506944879942,
+    "calmar": 0.08699867704110764,
+    "longest_underwater_days": 2164,
+    "exposure": 0.6495040093592337,
+    "final_equity": 132148.32446832905,
+    "trades": 1139,
+    "trades_per_year": 81.44607227343177,
+    "win_rate": 0.3388937664618086,
+    "avg_win": 929.2392081323022,
+    "avg_loss": -434.296142162167,
+    "avg_win_r": 1.5867857271302785,
+    "avg_loss_r": -0.7265196417737926,
+    "expectancy": 27.797488402947284,
+    "expectancy_r": 0.05744512767043184,
+    "expectancy_r_t": 1.2530297993092634,
+    "profit_factor": 1.0968162671672816,
+    "avg_hold_hours": 112.84986830553117,
+    "median_hold_hours": 92.0,
+    "longest_losing_streak": 20,
+    "net_pnl": 31661.339290956956,
+    "gross_pnl": 72618.09148953752,
+    "cost_spread": 13713.769549877943,
+    "cost_slippage": 7051.18538623124,
+    "cost_commission": 0.0,
+    "swap": -20191.797262471377,
+    "long_trades": 586,
+    "short_trades": 553,
+    "long_pnl": 15085.18421440251,
+    "short_pnl": 16576.155076554445,
+    "long_expectancy_r": 0.05065291994999805,
+    "short_expectancy_r": 0.06464265700890234,
+    "net_return_pct_initial": 31.66133929095696
+  },
+  "portfolio_meta": {
+    "halted": false,
+    "halt_reason": "",
+    "disabled": {},
+    "open_positions_at_end": 1
+  },
+  "risk_rejections": {
+    "spread too wide": 79
+  }
+}

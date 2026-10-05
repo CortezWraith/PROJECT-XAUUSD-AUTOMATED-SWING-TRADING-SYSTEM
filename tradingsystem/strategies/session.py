@@ -27,6 +27,7 @@ import numpy as np
 import pandas as pd
 
 from tradingsystem.core.types import Side, SignalAction
+from tradingsystem.data.bars import tf_minutes
 from tradingsystem.signals import indicators as ind
 from tradingsystem.strategies.base import PositionView, Strategy
 
@@ -46,20 +47,23 @@ class SessionDrift(Strategy):
         allow_long: bool = True
         allow_short: bool = True
         weekdays: tuple = (0, 1, 2, 3, 4)
+        offset_minutes: int = 0     # shift every session boundary (robustness test on M30 bars)
 
     @property
     def warmup_bars(self) -> int:
-        return 24 * self.params.daily_atr_days + 2
+        return (24 * 60 // tf_minutes(self.timeframe)) * self.params.daily_atr_days + 2
 
     def features(self, bars: pd.DataFrame) -> pd.DataFrame:
         p = self.params
         f = pd.DataFrame(index=bars.index)
         f["close"] = bars["close"]
         # daily-range proxy from H1 bars: rolling 24-bar high-low, averaged over N days of bars
-        rng = bars["high"].rolling(23, min_periods=20).max() - bars["low"].rolling(23, min_periods=20).min()
-        f["datr"] = rng.rolling(23 * p.daily_atr_days, min_periods=23 * p.daily_atr_days // 2).mean()
-        f["next_hour"] = ((bars.index + pd.Timedelta(hours=1)).hour).astype(int)
-        f["next_wd"] = (bars.index + pd.Timedelta(hours=1)).weekday
+        bpd = max(1, int(round(23 * 60 / tf_minutes(self.timeframe))))   # bars per trading day
+        rng = bars["high"].rolling(bpd, min_periods=int(bpd * 0.85)).max() - bars["low"].rolling(bpd, min_periods=int(bpd * 0.85)).min()
+        f["datr"] = rng.rolling(bpd * p.daily_atr_days, min_periods=bpd * p.daily_atr_days // 2).mean()
+        nxt = bars.index + pd.Timedelta(minutes=tf_minutes(self.timeframe)) - pd.Timedelta(minutes=p.offset_minutes)
+        f["next_hour"] = np.where(nxt.minute == 0, nxt.hour, -1).astype(int)   # -1: not a session boundary
+        f["next_wd"] = nxt.weekday
         return f
 
     def on_bar(self, ts, row: Any, pos: Optional[PositionView]):
@@ -69,8 +73,9 @@ class SessionDrift(Strategy):
         nh, wd = row.next_hour, row.next_wd
         out = []
         if pos is not None:
+            max_bars = 20 * 60 // tf_minutes(self.timeframe)
             ends = (pos.side is Side.LONG and nh == p.long_exit_hour) or \
-                   (pos.side is Side.SHORT and nh == p.short_exit_hour) or pos.bars_held >= 20
+                   (pos.side is Side.SHORT and nh == p.short_exit_hour) or pos.bars_held >= max_bars
             if not ends:
                 return []
             out.append(self._sig(ts, SignalAction.EXIT, side=pos.side, reason="session end"))
