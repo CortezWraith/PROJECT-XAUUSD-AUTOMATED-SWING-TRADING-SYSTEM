@@ -57,11 +57,11 @@ def gates(dev, oos, full15, perturb_pos_share, wf_total, max_year_share, boot_p)
         "2 OOS exp>0, PF>1.05, Sharpe>0.3": oos.get("expectancy_r", -1) > 0 and oos.get("profit_factor", 0) > 1.05 and oos.get("sharpe", 0) > 0.3,
         "3 costs x1.5 exp>0 (DEV+OOS)": full15.get("expectancy_r", -1) > 0,
         "4 >=70% neighbours exp>0": perturb_pos_share >= 0.70,
-        "5 walk-forward OOS > 0": (wf_total is None) or wf_total > 0,
+        "5 walk-forward OOS > 0": None if wf_total is None else wf_total > 0,
         "6 no year > 50% of net profit": max_year_share <= 0.50,
         "7 bootstrap P(exp>0) >= 90%": boot_p >= 0.90,
     }
-    g["ALL"] = all(g.values())
+    g["ALL"] = all(v for v in g.values() if v is not None)
     return g
 
 
@@ -261,7 +261,7 @@ def validate(key: str) -> dict:
     g = gates(seg["DEV 2010-18"], seg["OOS 2019-23"], seg["cost x1.5 DEV+OOS"], pos_share, wf_total, max_share,
               tb["prob_expectancy_positive"])
     out["gates"] = g
-    md.append("## Pre-registered gates\n" + "\n".join(f"- {'PASS' if v else 'FAIL'} — {k}" for k, v in g.items()) + "\n")
+    md.append("## Pre-registered gates\n" + "\n".join(f"- {'N/A' if v is None else ('PASS' if v else 'FAIL')} — {k}" for k, v in g.items()) + "\n")
     out["runtime_s"] = time.time() - t0
 
     with open(os.path.join(RESULTS, f"s02_{key}.md"), "w") as f:

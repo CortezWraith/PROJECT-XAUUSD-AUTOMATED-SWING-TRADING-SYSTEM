@@ -1424,10 +1424,10 @@
     "2 OOS exp>0, PF>1.05, Sharpe>0.3": false,
     "3 costs x1.5 exp>0 (DEV+OOS)": false,
     "4 >=70% neighbours exp>0": false,
-    "5 walk-forward OOS > 0": true,
+    "5 walk-forward OOS > 0": null,
     "6 no year > 50% of net profit": false,
     "7 bootstrap P(exp>0) >= 90%": false,
     "ALL": false
   },
-  "runtime_s": 88.54965853691101
+  "runtime_s": 82.66391634941101
 }
