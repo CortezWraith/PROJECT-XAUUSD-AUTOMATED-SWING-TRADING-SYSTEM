@@ -3,7 +3,7 @@
 Nezávislý výzkum a kvantitativní ověření swingových strategií pro XAUUSD + Python TradingSystem
 připravený pro backtest, paper, demo a live (MetaTrader 5). Zadání: `Project XAUUSD.docx`.
 
-**👉 Hlavní výstup: [REPORT.md](REPORT.md)** (24 kapitol dle zadání).
+**👉 Hlavní výstupy: [REPORT.md](REPORT.md)** (24 kapitol dle zadání) a **podrobné PDF [docs/XAUUSD_vyzkum_swing_strategii.pdf](docs/XAUUSD_vyzkum_swing_strategii.pdf)** (190 stran; zdroj `docs/pdf/src/`, build `python docs/pdf/build_pdf.py`).
 
 ## Výsledek ve zkratce
 
